@@ -3,7 +3,7 @@ Assignment 3: Portfolio Project
 Author: Christopher Eckerson
 Date: 2/8/2021
 
-To compile:
+To compile (for linux):
 gcc -std=gnu99 -g -o smallsh main.c
 
 To run:
