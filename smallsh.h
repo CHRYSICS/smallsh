@@ -84,8 +84,6 @@ char* expandVar(char* argStr){
             sprintf(argBuf + strlen(argBuf), "%c", argStr[i]);
         }
     }
-    // at the end of expanding '$$', set the last character to null
-    sprintf(argBuf + strlen(argBuf), '\0');
     // set pointer of argStr to the expanded version contained in buffer
     argStr = argBuf;
     // return expanded argument
