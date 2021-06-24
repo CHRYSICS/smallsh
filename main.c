@@ -37,6 +37,7 @@ void getInput(char* inputBuffer){
     return;
 }
 
+
 int main(){
     // initialize input variables
     char inputBuffer[MAXCHARS + 1];
@@ -60,6 +61,9 @@ int main(){
     ignore_action.sa_handler = SIG_IGN;
     // register the ignore_action as the handler for SIGINT
     sigaction(SIGINT, &ignore_action, NULL);
+
+    printf("Smallsh: Terminal Shell Project\n");
+    printf("(Enter 'help' to get usability documentation)\n");
 
     
     // loop terminal prompt and execution of commands
@@ -88,6 +92,14 @@ int main(){
             case 3:
                 // call status built-in command
                 callStatus(exitStatus);
+                break;
+            case 4:
+                // call help built-in command
+                callDocs("HELP.txt");
+                break;
+            case 5:
+                // call docs built-in command
+                callDocs("README.txt");
                 break;
             default:
                 // call non-builtin command through exec

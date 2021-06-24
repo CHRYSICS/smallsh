@@ -85,7 +85,7 @@ char* expandVar(char* argStr){
         }
     }
     // at the end of expanding '$$', set the last character to null
-    sprintf(argBuf + strlen(argBuf), "\0");
+    sprintf(argBuf + strlen(argBuf), '\0');
     // set pointer of argStr to the expanded version contained in buffer
     argStr = argBuf;
     // return expanded argument
@@ -195,7 +195,7 @@ This returns the built-in command number, with zero defaulting to not builtin
 int commandList(char* command) {
 	// Define number of built-in commands supported by smallsh
 	// (UPDATE as new commands are made)
-	int numBuiltIn = 3;
+	int numBuiltIn = 5;
 	// Initialize built-in list of smallsh commands
 	char* BuiltInCommands[numBuiltIn];
 	// Initialize call number, default as zero (implying no match yet)
@@ -205,6 +205,8 @@ int commandList(char* command) {
 	BuiltInCommands[0] = "exit";
 	BuiltInCommands[1] = "cd";
 	BuiltInCommands[2] = "status";
+    BuiltInCommands[3] = "help";
+    BuiltInCommands[4] = "docs";
 	// Loop through the number of possible built-in commands
 	for (int i = 0; i < numBuiltIn; i++) {
 		// if provided command is a match
@@ -298,6 +300,22 @@ void callStatus(int exitStatus){
     return;
 }
 
+void callDocs(char* filename) {
+    FILE* fp;
+    char ch;
+    fp = fopen(filename, "r");
+    if (fp)
+    {
+        while ((ch = fgetc(fp)) != EOF)
+        {
+            printf("%c", ch);
+        }
+    }
+    fclose(fp);
+    return;
+}
+
+
 // add process pid to the proccess linked list
 void addProc(int newPid, PROCESS** procList){
     // pointer to value at address of process list 
@@ -376,6 +394,7 @@ void cleanProc(PROCESS** procList){
         } 
     }
 }
+
 
 // executes command, setting any redirects and set/return exit status
 int execCommand(COMMAND* curCommand, int exitStatus, PROCESS **procList){
@@ -460,7 +479,7 @@ int execCommand(COMMAND* curCommand, int exitStatus, PROCESS **procList){
             execvp(curCommand->argv[0], curCommand->argv);
             
             // if exec fails, reset redirects to stdin and stdout and close duplicate file descriptors
-            printf("%s: no such file or directory\n", curCommand->argv[0]);
+            printf("%s: execution of command failed\n", curCommand->argv[0]);
             fflush(stdout);
             if ((curCommand->input_file) != NULL) {
                 dup2(saved_stdin, 0);

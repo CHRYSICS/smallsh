@@ -1,0 +1,21 @@
+Smallsh Command "Help":
+
+Built-in Functions (no arguments):
+docs
+help 
+exit 
+status  
+cd 
+
+All other commands:
+command [arg1 arg2 ...] [< input_file] [> output_file] [&]
+
+Note: 
+'<' and '>': special characters allow redirects.
+'&': sending process to background.
+'$$': replace instances in command with pid id.
+
+In addition, the shell handles SIGINT and SIGTSTP as follows:
+SIGINT  - interupt foreground process (excludes shell).
+SIGTSTP - switch between "foreground mode" and "normal mode".
+

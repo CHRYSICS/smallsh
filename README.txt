@@ -12,7 +12,7 @@ To run:
 (Or to simply auto-compile, just enter "compile.sh")
 
 
-Summary: This program creates a small terminal shell that can take commands. Three commands are built-in: exit, status, and cd.
+Summary: This program creates a small terminal shell that can take commands. Three commands are built-in: exit, status, help, and cd.
 All other commands are performed in separate processes using fork and and execvp function (searches for commands in the 'PATH' environment variable).  
 
 The shells special characters for handling redirects and sending to background are '<'(input redirect), '<' (output redirect), and '&' sends command to background. In addition, when the shell handles an input with '$$', it will expand that to the parents pid number.
