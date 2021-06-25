@@ -231,15 +231,42 @@ void killProcList(PROCESS* procList){
     // once done, return to parent process (shell)
     return;
 }
-                
+
+
+// return absolute path for relative path provided
+char* convertToAbsolutePath(char* relativePath) {
+    char buffer[MAXCHARS];
+    char* absolutePath;
+    // get current working directory path
+    if (getcwd(buffer, sizeof(buffer)) != NULL) {
+        // check if path uses local directory reference pointers
+        if (relativePath[0] == '.') {
+            // check if relative path is to parent directory
+            if (strlen(relativePath) == 2) {
+                if (relativePath[1] == '.') {
+                    // step back to parent folder by removing current folder
+                    char* ptr = strrchr(buffer, '/');
+                    *ptr = '\0';
+                }
+            }
+            
+        }
+        // use normal relative path
+        else {
+            sprintf(buffer + strlen(buffer), "/%s", relativePath);
+        }
+        absolutePath = buffer;
+        return absolutePath;
+    }
+}
+
+
 // calls the built-in cd function of the smallsh program
 void callCD(COMMAND* curCommand) {
 	// Initialize variables
-	char buffer[256];
 	int flag;
     char* filePath;
 	char* PWD = "PWD";
-	char* home = "HOME";
     // check if proper number of arguments were given
     if(curCommand->argc > 2){
         // alert user of sytax error with cd command
@@ -250,7 +277,7 @@ void callCD(COMMAND* curCommand) {
 	// otherwise if no path is specified, change to HOME path
 	if (curCommand->argc == 1) {
 		// get path to home from environment
-		filePath = getenv(home);
+		filePath = getenv("HOME");
 	}
 	// OR path is specified, check for absolute or relative paths
 	else if (curCommand->argc == 2) {
@@ -260,11 +287,8 @@ void callCD(COMMAND* curCommand) {
 		}
 		// if path is relative, not beginning with '/'
 		else {
-			// get current working directory path
-			getcwd(buffer, sizeof(buffer));
-			// append current working directory and argument path together
-			sprintf(buffer + strlen(buffer), "/%s", curCommand->argv[1]);
-            filePath = buffer;
+            // convert relative path to absolute path
+            filePath = convertToAbsolutePath(curCommand->argv[1]);
 		}
 	}
     // use filePath to change directory
@@ -280,8 +304,11 @@ void callCD(COMMAND* curCommand) {
         printf("failure to set env 'PWD' variable to %s\n", filePath);
         fflush(stdout);
     };
+    // alert user of changed directory
+    printf("Changed to directory: %s\n", getenv(PWD));
     return;
 }
+
 
 // print the signal or exit status of last process
 void callStatus(int exitStatus){
