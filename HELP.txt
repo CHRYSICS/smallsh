@@ -5,7 +5,11 @@ docs
 help 
 exit 
 status  
-cd 
+
+Built-in change directory command:
+cd: returns to HOME
+cd [relativepath]: changes path from PWD variable
+cd [absolutepath]: changes path exact path given
 
 All other commands:
 command [arg1 arg2 ...] [< input_file] [> output_file] [&]
