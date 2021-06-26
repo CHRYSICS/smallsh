@@ -97,10 +97,6 @@ int main(){
                 // call help built-in command
                 callDocs("HELP.txt");
                 break;
-            case 5:
-                // call docs built-in command
-                callDocs("README.txt");
-                break;
             default:
                 // call non-builtin command through exec
                 exitStatus = execCommand(curCommand, exitStatus, &procList);       

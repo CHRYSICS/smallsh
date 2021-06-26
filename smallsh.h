@@ -193,7 +193,7 @@ This returns the built-in command number, with zero defaulting to not builtin
 int commandList(char* command) {
 	// Define number of built-in commands supported by smallsh
 	// (UPDATE as new commands are made)
-	int numBuiltIn = 5;
+	int numBuiltIn = 4;
 	// Initialize built-in list of smallsh commands
 	char* BuiltInCommands[numBuiltIn];
 	// Initialize call number, default as zero (implying no match yet)
@@ -204,7 +204,6 @@ int commandList(char* command) {
 	BuiltInCommands[1] = "cd";
 	BuiltInCommands[2] = "status";
     BuiltInCommands[3] = "help";
-    BuiltInCommands[4] = "docs";
 	// Loop through the number of possible built-in commands
 	for (int i = 0; i < numBuiltIn; i++) {
 		// if provided command is a match
